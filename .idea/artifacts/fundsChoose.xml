@@ -1,0 +1,27 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="fundsChoose">
+    <output-path>$PROJECT_DIR$/out/artifacts/fundsChoose</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="com.img.load.Main" />
+        <option name="description" value="asdf" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="asdf" />
+        <option name="vendor" value="asdf" />
+        <option name="version" value="asdf" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="fundsChoose.jar">
+        <element id="module-output" name="fundsChoose" />
+        <element id="module-output" name="loadModule" />
+        <element id="library" level="project" name="lib" />
+        <element id="library" level="project" name="annotations-13.0" />
+        <element id="library" level="project" name="gson-2.8.6" />
+        <element id="library" level="project" name="jsoup-1.13.1" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/kotlin-stdlib-common-1.5.20-M1.jar" />
+      </element>
+    </root>
+  </artifact>
+</component>
