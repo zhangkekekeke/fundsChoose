@@ -11,22 +11,22 @@ val keyWords = arrayOf(
         "中证800",
         "上证50",
         "中证医疗",
-        "",
+        "华泰柏瑞量化智慧混合",
 )
 
 //当前策略
 object ChooseTypeContants {
 //    var ChooseData = fundAll
-            var ChooseData = newShare
-//    var ChooseData = fund500
+//            var ChooseData = newShare
+    var ChooseData = fund500
 }
 
 //指数 筛选策略
 private val fundAll = ChooseData(ChooseType.NEW_SHARE, FundSort.UNIPO_EndNAV_RATE,
-        0.2f, 150f, null, null, 0f).let {
+        1f, 21f, 85f, null, 1f).let {
     it.fuzzyName = arrayOf(
 //            "中证500",
-            "中证红利",
+//            "中证红利",
 //            "中证银行",
 //            "基本面50",
 //            "300价值",
@@ -35,28 +35,25 @@ private val fundAll = ChooseData(ChooseType.NEW_SHARE, FundSort.UNIPO_EndNAV_RAT
 //            "中证800",
 //            "上证50",
 //            "中证医疗",
-//            "",
+            "西部利得量化成长混合",
     )
     it.earningTime = 12//月
-//    it.srOneYear = 2f
-//    it.srTwoYear = 2f
-//    it.srThreeYear = 1.9f
+//    it.srOneYear = 1.1f
+//    it.srTwoYear = 1.1f
+//    it.srThreeYear = 1.1f
 
-//    it.infoROneYear = 0.2f
-//    it.infoRTwoYear = 0.2f
-//    it.infoRThreeYear = 0.2f
     return@let it
 }
 
 //中证500 筛选策略
-private val fund500 = ChooseData(ChooseType.FUND_500, FundSort.earningRateByTime, 0.3f, 25f, null, null, 1.5f).let {
-    it.fuzzyName = arrayOf("中证500")
+private val fund500 = ChooseData(ChooseType.NEW_SHARE, FundSort.ONE_YEAR_SpeacialValue, 0.3f, 50f, null, null, 1.5f).let {
+    it.fuzzyName = arrayOf("中证500","西部利得量化成长混合","广发多因子混合","富国天博创新","富国天惠成长")
 
-    it.srOneYear = 1.7f
-//    it.srTwoYear = 2.4f
+    it.srOneYear = 0.5f
+    it.srTwoYear = 1.29f
 //    it.srThreeYear = 1.9f
 
-    it.infoROneYear = 0.3f
+//    it.infoROneYear = 0.2f
 //    it.infoRTwoYear = 0.3f
 //    it.infoRThreeYear = 0.3f
     return@let it
@@ -117,4 +114,6 @@ enum class FundSort {
     earningRateByTime,//一年收益率
     UNIPO_EndNAV_RATE,//未上市 / 基金规模
     UNIPO_ShareNav_RATE,//未上市 / 股票规模
+    ONE_YEAR_SpeacialValue,//一年 夏普
+    TWO_YEAR_SpeacialValue,//2年 夏普
 }

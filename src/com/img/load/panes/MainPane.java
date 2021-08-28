@@ -89,13 +89,21 @@ public class MainPane implements EventHandler<MouseEvent> {
                     setupDate.setTime(fund.getSetupDate());
                     int year = setupDate.get(Calendar.YEAR);
 
-                    String msg = String.format("%s；%s, 成立：%d；未上市：%.2f%%, %d个月收益：%.2f%%", fund.getFCODE(), fund.getSHORTNAME(), year
-                            , unIPORatio / fund.getShareRatio(), fund.getEarningTime(), fund.getEarningRateByTime())
-                            + String.format("，股占:%.2f%%", fund.getShareRatio() * 100)
-                            + String.format("，未上市/总:%.2f%%", unIPORatio)
+                    int nameSize=fund.getSHORTNAME().length();
+
+                    String msg = String.format("%s；%s ", fund.getFCODE(), fund.getSHORTNAME().substring(0, Math.min(nameSize, 8)))
+//                            + String.format(", 成立：%d ", year)
+                            + String.format(", 规模：%.1f亿 ", fund.getTotalEndNav()/100000000)
+//                            + String.format(", 未上市：%.2f%% ", unIPORatio / fund.getShareRatio())
+                            + String.format(", %d个月打新：%.2f%% ", fund.getEarningTime(), fund.getEarningRateByTime())
+//                            + String.format(", 股占:%.2f%% ", fund.getShareRatio() * 100)
+                            + String.format(", 未上市/总:%.2f%% ", unIPORatio)
 //                            + "，一标差:" + fund.getSd().getOneYear() + "%"
 //                            + "，一信息:" + fund.getInfoR().getOneYear()
-                            + "，一夏普:" + fund.getSr().getOneYear();
+                            + "，一年夏普:" + fund.getSr().getOneYear()
+                            + "，二年夏普:" + fund.getSr().getTwoYear()
+                            + "，三年夏普:" + ((fund.getSr().getThreeYear() ==-1)?"无":fund.getSr().getThreeYear())
+                            ;
                     TextField label = new TextField(msg);
                     label.setFont(new Font(14));
 
@@ -109,7 +117,7 @@ public class MainPane implements EventHandler<MouseEvent> {
                         }
                         if (infoOK && fund.getSr().getOneYear() > 1.7f) {
                             srOK = true;
-                            label.setStyle("-fx-text-inner-color: red;");
+//                            label.setStyle("-fx-text-inner-color: red;");
                         }
                         if (srOK && fund.getTravErrorR() != null && fund.getAverErrorR() != null
                                 && fund.getTravErrorR() <= fund.getAverErrorR()) {//跟踪误差
@@ -117,11 +125,11 @@ public class MainPane implements EventHandler<MouseEvent> {
                         }
                     } else if (chooseData.getChooseType() == ChooseType.NEW_SHARE) {
                         //标记颜色
-                        if (fund.getSd().getOneYear() < 3 || fund.getSd().getTwoYear() < 3 || fund.getSd().getThreeYear() < 3) {
+//                        if (fund.getSd().getOneYear() < 3 || fund.getSd().getTwoYear() < 3 || fund.getSd().getThreeYear() < 3) {
+//                            label.setStyle("-fx-text-inner-color: red;");
+//                        }
+                        if (fund.getSr().getOneYear() > 1.7f || fund.getSr().getTwoYear() > 1.7f || fund.getSr().getThreeYear() > 1.7f) {
                             label.setStyle("-fx-text-inner-color: red;");
-                        }
-                        if (fund.getSr().getOneYear() > 3.2f || fund.getSr().getTwoYear() > 2.9f || fund.getSr().getThreeYear() > 2.6f) {
-                            label.setStyle("-fx-text-inner-color: #ff22ff;");
                         }
                     }
 

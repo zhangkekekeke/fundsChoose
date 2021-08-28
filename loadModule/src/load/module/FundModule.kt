@@ -51,7 +51,7 @@ class FundModule {
             val endNav = fund.ENDNAV!!.toFloat()
 
 //          //条件0：剔除C类基金, 稍后合并
-            if (fund.SHORTNAME.contains("C") || fund.SHORTNAME.contains("B")
+            if (fund.SHORTNAME.contains("C") || (fund.SHORTNAME.contains("B")&&!fund.SHORTNAME.contains("A/B"))
                     || fund.SHORTNAME.contains("D") || fund.SHORTNAME.contains("I")
                     || fund.SHORTNAME.contains("定开") || fund.SHORTNAME.contains("定期"))
                 return@forEach
@@ -116,15 +116,6 @@ class FundModule {
             newFunds.add(fund)
         }
 
-        //获取 未上市新股数据
-        for (filterFund in newFunds) {
-            val unIPOList: List<Share> = easyApi.queryIPOList(filterFund.FCODE, 1) ?: return
-            for (unIPOShare in unIPOList) {
-                if (ignoreShare(unIPOShare)) continue
-                filterFund.sharesUnIPO.SUMPLACE += unIPOShare.SUMPLACE
-                filterFund.sharesUnIPO.STKNUM += unIPOShare.SHAREPLACE
-            }
-        }
         //获取 近一年 获配新股
         for (filterFund in newFunds) {
             filterFund.earningTime = chooseData.earningTime
@@ -145,8 +136,8 @@ class FundModule {
 
         //第二轮筛选，A类与C类基金，合并规模。再次筛选
         for (fundA in newFunds.reversed()) {
-
-            val shortName = fundA.SHORTNAME.replace("A", "")
+            val isA=fundA.SHORTNAME.contains("A")
+            val shortName = if(isA) fundA.SHORTNAME.substring(0, fundA.SHORTNAME.indexOf("A")) else fundA.SHORTNAME
             //找出对应的其他类基金，如:C、B、D
             val fundOther: ArrayList<NewShareFund> = arrayListOf()
 //            for (originalFund in funds.reversed()) {
@@ -157,12 +148,12 @@ class FundModule {
 //            }
 
             //合并规模
-            var totalEndNav: Float = fundA.ENDNAV!!.toFloat()
+            var totalEndNav = 0f
             if (fundOther.size == 0) {
                 //再次查询
                 val responeObject = easyApi.queryACFund(shortName)
                 val dataArray = responeObject?.get("Datas")?.asJsonArray
-                if (dataArray == null || dataArray.size() <= 1) {
+                if (dataArray == null || dataArray.size() == 0) {
                     if (!ignorOtherFund(fundA)) {
 //                        RuntimeException("找不到对应的 其他类基金：" + fundA.SHORTNAME).printStackTrace()
                     }
@@ -170,8 +161,8 @@ class FundModule {
                 } else {
                     for (json: JsonElement in dataArray) {
                         val jsonObject = json.asJsonObject
-                        if (jsonObject.get("NAME").asString.contains("A"))
-                            continue//踢出A类
+                        if (jsonObject.get("NAME").asString.contains("后端"))
+                            continue//踢出 后端
 
                         val endnav = easyApi.queryEndNav(jsonObject.get("CODE").asString)
                         totalEndNav += endnav
@@ -187,6 +178,13 @@ class FundModule {
             }
             //记录数据
             fundA.TotalEndNav = totalEndNav
+
+            val unIPOList: List<Share> = easyApi.queryIPOList(fundA.FCODE, 1) ?: return
+            for (unIPOShare in unIPOList) {
+                if (ignoreShare(unIPOShare)|| unIPOShare.SUMPLACE*100/fundA.TotalEndNav!!>0.13f) continue
+                fundA.sharesUnIPO.SUMPLACE += unIPOShare.SUMPLACE
+                fundA.sharesUnIPO.STKNUM += unIPOShare.SHAREPLACE
+            }
 
             //条件1：A、C类 规模 <x亿
             if (totalEndNav > chooseData.maxEndNav * million100) {
@@ -224,7 +222,6 @@ class FundModule {
 //                    + "% 规模:" + String.format("%.1f", totalEndNav / million100) + " 股票占比:" + fundA.shareRatio + "%"
 //                    + " 三年标准差:" + fundA.sd!!.oneYear + "%" + " 三年夏普比:" + fundA.sr!!.threeYear)
         }
-
 
         //排序：根据未上市新股 占比
         sortByUnIPO(chooseData, newFunds)
@@ -266,6 +263,16 @@ class FundModule {
                 var value2 = 0f
                 var value1 = 0f
                 when (chooseData.fundSort) {
+                    FundSort.ONE_YEAR_SpeacialValue -> {
+                        //近一段时间 已获配金额占当期规模比例
+                        value2 = o2.sr?.oneYear?:0f
+                        value1 = o1.sr?.oneYear?:0f
+                    }
+                    FundSort.TWO_YEAR_SpeacialValue -> {
+                        //近一段时间 已获配金额占当期规模比例
+                        value2 = o2.sr?.twoYear?:0f
+                        value1 = o1.sr?.twoYear?:0f
+                    }
                     FundSort.earningRateByTime -> {
                         //近一段时间 已获配金额占当期规模比例
                         value2 = o2.earningRateByTime

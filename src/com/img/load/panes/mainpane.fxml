@@ -75,32 +75,32 @@
       </HBox>
       <VBox layoutX="565.0" layoutY="22.0" prefHeight="172.0" prefWidth="386.0" spacing="8.0" style="-fx-background-color: #dddddd;">
          <children>
-            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件1：A类 规模 &gt;1亿 &lt;25亿" wrapText="true">
+            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件1：A类 规模 &gt;0.3亿 &lt;50亿" wrapText="true">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件2：股票占比 &lt; 25%" wrapText="true">
+<!--            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件2：股票占比 &lt; 25%" wrapText="true">-->
+<!--               <font>-->
+<!--                  <Font size="13.0" />-->
+<!--               </font>-->
+<!--            </Label>-->
+            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件3：成立时间 &gt; 1.5年" wrapText="true">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件3：成立时间 &gt; 4年" wrapText="true">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
-            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件4：三年夏普比 &gt; 1.9，二年夏普比 &gt; 2，一年夏普比 &gt; 3" wrapText="true">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
-            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件5：三年标准差 &lt;8，二年标准差 &lt;8，一年标准差 &lt;4.3" wrapText="true">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
-            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="排序：按照未上市/股票市值 排序" wrapText="true">
+<!--            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件4：三年夏普比 &gt; 1.9，二年夏普比 &gt; 2，一年夏普比 &gt; 3" wrapText="true">-->
+<!--               <font>-->
+<!--                  <Font size="13.0" />-->
+<!--               </font>-->
+<!--            </Label>-->
+<!--            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="条件5：三年标准差 &lt;8，二年标准差 &lt;8，一年标准差 &lt;4.3" wrapText="true">-->
+<!--               <font>-->
+<!--                  <Font size="13.0" />-->
+<!--               </font>-->
+<!--            </Label>-->
+            <Label prefWidth="644.0" style="-fx-background-color: #ffffff;" text="排序：2年夏普比 排序" wrapText="true">
                <font>
                   <Font size="13.0" />
                </font>
