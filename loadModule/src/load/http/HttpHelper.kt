@@ -1,9 +1,7 @@
 package load.http
 
 import load.util.isEmpty
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
+import java.io.*
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -36,7 +34,7 @@ class HttpHelper {
     fun httpPost(path: String, headerMap: Map<String, String>?): String? {
         val respones = httpCache.check(path)
         if (!isEmpty(respones)) {
-            System.out.println("Http请求，已使用缓存")
+            println("Http请求，已使用缓存")
             return respones//有缓存 返回
         }
 
@@ -64,18 +62,18 @@ class HttpHelper {
         try {
             //从连接获取输入流，请求的输入也就是对请求的输入，即是相应，
             val `in` = conn.getInputStream()
-            val `is` = InputStreamReader(`in`, "utf-8")
 
-            //将字节流转换成字符流，方便操作
-            val br = BufferedReader(`is`)
-            var line: String?
-            while (br.readLine().also {
-                        line =
-//                                if(it.contains("\\\\")) "" else
-                            it
-            } != null) {
-                return line
+            val bufferedInputStream = BufferedInputStream(`in`)
+            var byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream()
+            val b = ByteArray(1024)
+            var length: Int
+            while (bufferedInputStream.read(b).also {
+                    length = it
+                } > 0) {
+                byteArrayOutputStream.write(b, 0, length)
             }
+
+            return byteArrayOutputStream.toString("utf-8")
         } catch (e: MalformedURLException) {
             e.printStackTrace()
         } catch (e: IOException) {

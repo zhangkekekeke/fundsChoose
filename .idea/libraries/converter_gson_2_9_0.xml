@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="converter-gson-2.9.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/converter-gson-2.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/okhttp-4.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/okio-3.0.0-alpha.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/retrofit-2.9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -11,14 +11,14 @@ val keyWords = arrayOf(
         "中证800",
         "上证50",
         "中证医疗",
-        "华泰柏瑞量化智慧混合",
+        "",
 )
 
 //当前策略
 object ChooseTypeContants {
 //    var ChooseData = fundAll
-//            var ChooseData = newShare
-    var ChooseData = fund500
+            var ChooseData = newShare
+//    var ChooseData = fund500
 }
 
 //指数 筛选策略
@@ -60,14 +60,14 @@ private val fund500 = ChooseData(ChooseType.NEW_SHARE, FundSort.ONE_YEAR_Speacia
 }
 
 //打新基金 筛选策略
-private val newShare = ChooseData(ChooseType.NEW_SHARE, FundSort.UNIPO_EndNAV_RATE, 1f, 25f, null, 25f, 4f).let {
-    it.srOneYear = 2.8f
-    it.srTwoYear = 2.4f
-    it.srThreeYear = 1.9f
+private val newShare = ChooseData(ChooseType.NEW_SHARE, FundSort.ONE_YEAR_SpeacialValue, 1f, 25f, null, 25f, 4f).let {
+    it.srOneYear = 2.3f
+    it.srTwoYear = 2.6f
+    it.srThreeYear = 1.8f
 
-    it.sdOneYear = 4f
-    it.sdTwoYear = 6f
-    it.sdThreeYear = 6.5f
+//    it.sdOneYear = 4f
+//    it.sdTwoYear = 6f
+//    it.sdThreeYear = 6.5f
     return@let it
 }
 
@@ -116,4 +116,5 @@ enum class FundSort {
     UNIPO_ShareNav_RATE,//未上市 / 股票规模
     ONE_YEAR_SpeacialValue,//一年 夏普
     TWO_YEAR_SpeacialValue,//2年 夏普
+    Three_YEAR_SpeacialValue,//3年 夏普
 }

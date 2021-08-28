@@ -273,6 +273,11 @@ class FundModule {
                         value2 = o2.sr?.twoYear?:0f
                         value1 = o1.sr?.twoYear?:0f
                     }
+                    FundSort.Three_YEAR_SpeacialValue -> {
+                        //近一段时间 已获配金额占当期规模比例
+                        value2 = o2.sr?.threeYear?:0f
+                        value1 = o1.sr?.threeYear?:0f
+                    }
                     FundSort.earningRateByTime -> {
                         //近一段时间 已获配金额占当期规模比例
                         value2 = o2.earningRateByTime
