@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/csIndex/csIndex.iml" filepath="$PROJECT_DIR$/csIndex/csIndex.iml" />
       <module fileurl="file://$PROJECT_DIR$/fundsChoose.iml" filepath="$PROJECT_DIR$/fundsChoose.iml" />
       <module fileurl="file://$PROJECT_DIR$/loadModule/loadModule.iml" filepath="$PROJECT_DIR$/loadModule/loadModule.iml" />
     </modules>

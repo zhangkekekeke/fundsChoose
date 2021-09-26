@@ -92,12 +92,12 @@ public class MainPane implements EventHandler<MouseEvent> {
                     int nameSize=fund.getSHORTNAME().length();
 
                     String msg = String.format("%s；%s ", fund.getFCODE(), fund.getSHORTNAME().substring(0, Math.min(nameSize, 8)))
-//                            + String.format(", 成立：%d ", year)
+                            + String.format(", 成立：%d ", year)
                             + String.format(", 规模：%.1f亿 ", fund.getTotalEndNav()/100000000)
-//                            + String.format(", 未上市：%.2f%% ", unIPORatio / fund.getShareRatio())
+                            + String.format(", 未上市：%.2f%% ", unIPORatio / fund.getShareRatio())
                             + String.format(", %d个月打新：%.2f%% ", fund.getEarningTime(), fund.getEarningRateByTime())
-//                            + String.format(", 股占:%.2f%% ", fund.getShareRatio() * 100)
-                            + String.format(", 未上市/总:%.2f%% ", unIPORatio)
+                            + String.format(", 股占:%.2f%% ", fund.getShareRatio() * 100)
+//                            + String.format(", 未上市/总:%.2f%% ", unIPORatio)
 //                            + "，一标差:" + fund.getSd().getOneYear() + "%"
 //                            + "，一信息:" + fund.getInfoR().getOneYear()
                             + "，一年夏普:" + fund.getSr().getOneYear()

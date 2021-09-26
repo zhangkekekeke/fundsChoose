@@ -35,7 +35,8 @@ private val fundAll = ChooseData(ChooseType.NEW_SHARE, FundSort.UNIPO_EndNAV_RAT
 //            "中证800",
 //            "上证50",
 //            "中证医疗",
-            "西部利得量化成长混合",
+//            "西部利得量化成长混合",
+//            "长安裕隆",
     )
     it.earningTime = 12//月
 //    it.srOneYear = 1.1f
@@ -46,11 +47,12 @@ private val fundAll = ChooseData(ChooseType.NEW_SHARE, FundSort.UNIPO_EndNAV_RAT
 }
 
 //中证500 筛选策略
-private val fund500 = ChooseData(ChooseType.NEW_SHARE, FundSort.ONE_YEAR_SpeacialValue, 0.3f, 50f, null, null, 1.5f).let {
-    it.fuzzyName = arrayOf("中证500","西部利得量化成长混合","广发多因子混合","富国天博创新","富国天惠成长")
+private val fund500 = ChooseData(ChooseType.NEW_SHARE, FundSort.TWO_YEAR_SpeacialValue, 0.3f, 50f, null, null, 1.5f).let {
+//    it.fuzzyName = arrayOf("中证500")
+    it.fuzzyName = arrayOf("沪深300")
 
-    it.srOneYear = 0.5f
-    it.srTwoYear = 1.29f
+//    it.srOneYear = 0.5f
+//    it.srTwoYear = 1.29f
 //    it.srThreeYear = 1.9f
 
 //    it.infoROneYear = 0.2f
@@ -60,10 +62,10 @@ private val fund500 = ChooseData(ChooseType.NEW_SHARE, FundSort.ONE_YEAR_Speacia
 }
 
 //打新基金 筛选策略
-private val newShare = ChooseData(ChooseType.NEW_SHARE, FundSort.ONE_YEAR_SpeacialValue, 1f, 25f, null, 25f, 4f).let {
-    it.srOneYear = 2.3f
-    it.srTwoYear = 2.6f
-    it.srThreeYear = 1.8f
+private val newShare = ChooseData(ChooseType.NEW_SHARE, FundSort.ONE_YEAR_SpeacialValue, 1f, 4f, null, 25f, 4f).let {
+//    it.srOneYear = 2.3f
+//    it.srTwoYear = 2.6f
+//    it.srThreeYear = 1.8f
 
 //    it.sdOneYear = 4f
 //    it.sdTwoYear = 6f

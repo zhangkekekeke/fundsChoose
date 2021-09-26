@@ -6,17 +6,13 @@ import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.img.load.bean.NewShareFund
 import com.img.load.bean.SpeacialValue
+import load.Global
 import load.bean.Share
 import load.http.api.EastService
 import load.util.isEmpty
-import okhttp3.ResponseBody
 import org.jsoup.select.Elements
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import java.lang.Exception
-import java.net.URLEncoder
 
 const val FCODE = "FCODE"             //基金代码
 const val SHORTNAME = "SHORTNAME"     //基金简称
@@ -122,11 +118,10 @@ class EasyApi {
         val url = "https://qieman.com/pmdj/v1/funds/$fCode"
         val headers = HashMap<String, String>()
 
-        headers.put("x-sign", "1630169598551FE55C09705191D948C51057C53453431")
+        headers.put("x-sign", Global.qie_x_sign)
+        headers.put("x-request-id", Global.x_request_id)
+        headers.put("sensors-anonymous-id", Global.sensors_anonymous_id)
         headers.put("Accept", "application/json")
-        headers.put("x-aid", "A.97DB7BD01F7R7SG19QGD7XEBYGA27J1TA")
-        headers.put("x-request-id", "albus.36EE6CA93A63C1A71CEA")
-        headers.put("sensors-anonymous-id", "179f07ccf2e129-030f0c7c2dd2ca-3e604809-2073600-179f07ccf2f67e")
         headers.put("Referer", "https://qieman.com/funds")
         headers.put("Sec-Fetch-Dest", "empty")
         headers.put("Sec-Fetch-Mode", "cors")
@@ -158,17 +153,12 @@ class EasyApi {
     fun queryACFund(name: String): JsonObject? {
         //特殊条件：且慢查询系统，需要剔除(LOF)后缀，不然会查询错误
         val newName = name.replace("(LOF)", "")
-        val url = "http://fundsuggest.eastmoney.com/FundSearch/api/FundSearchAPI.ashx?m=1&key=${
-            URLEncoder.encode(
-                newName,
-                "utf-8"
-            )
-        }&_=1623420782081"
+        val url = "http://fundsuggest.eastmoney.com/FundSearch/api/FundSearchAPI.ashx?m=1&_=1623420782081"
 //        val url = "https://qieman.com/pmdj/v1/search/funds?q=${URLEncoder.encode(newName, "utf-8")}&limit=5&tradableFunds=1&includeInvestPoolTag=0"
         val headers = HashMap<String, String>()
         headers.put(
             "Cookie",
-            "AUTH_FUND.EASTMONEY.COM_GSJZ=AUTH*TTJJ*TOKEN; qgqp_b_id=7449707830b7730c528fd8bef268bae7; em_hq_fls=js; em-quote-version=topspeed; intellpositionL=1522.39px; HAList=a-sz-000933-%u795E%u706B%u80A1%u4EFD%2Ca-sz-002585-%u53CC%u661F%u65B0%u6750%2Ca-sh-601636-%u65D7%u6EE8%u96C6%u56E2%2Ca-sz-300037-%u65B0%u5B99%u90A6%2Ca-sz-300671-%u5BCC%u6EE1%u7535%u5B50%2Ca-sh-600884-%u6749%u6749%u80A1%u4EFD%2Ca-sh-600036-%u62DB%u5546%u94F6%u884C%2Ca-sh-601012-%u9686%u57FA%u80A1%u4EFD%2Ca-sh-600276-%u6052%u745E%u533B%u836F%2Ca-sz-301047-%u4E49%u7FD8%u795E%u5DDE%2Cd-hk-03033%2Ca-sh-605011-%u676D%u5DDE%u70ED%u7535; EMFUND1=null; EMFUND2=null; EMFUND3=null; EMFUND4=null; EMFUND5=null; EMFUND0=null; EMFUND7=08-25%2023%3A12%3A33@%23%24%u5E7F%u53D1%u4E2D%u8BC1500ETF@%23%24510510; EMFUND6=08-26%2023%3A07%3A13@%23%24%u5357%u65B9%u4E2D%u8BC1500ETF@%23%24510500; EMFUND8=08-25%2023%3A12%3A35@%23%24%u534E%u590F%u4E2D%u8BC1500ETF@%23%24512500; EMFUND9=08-26 23:11:26@#$%u6D59%u5546%u4E2D%u8BC1500%u6307%u6570%u589E%u5F3AA@%23%24002076; st_si=76937185830415; cowCookie=true; st_asi=delete; intellpositionT=2655px; st_pvi=47100283951626; st_sp=2021-08-25%2023%3A11%3A38; st_inirUrl=http%3A%2F%2Ffund.eastmoney.com%2Fcompare%2F; st_sn=40; st_psi=20210829004937589-112200312939-4499421467"
+            Global.eastCookie
         )
         headers.put(
             "Accept",
@@ -186,20 +176,19 @@ class EasyApi {
         val respones = httpHelper.httpCache.check(url)
         if (!isEmpty(respones)) {
             try {
-//                println("Http请求，已使用缓存")
                 return Gson().fromJson(respones, JsonObject::class.java)
             } catch (ignore: Exception) {
-                ignore.printStackTrace()
                 httpHelper.httpCache.delete(url)
             }
         }
 
-        println("正在请求网络：$url")
         val respone2 = service.easyFundSeachApi(newName, headers).execute()
+        var body: String?
         if (respone2.isSuccessful) {
             try {
+                println("正在请求网络：${respone2.raw().request.url}")
                 respone2.body()?.bytes()?.let {
-                    val body = String(it)
+                    body = String(it)
                     httpHelper.httpCache.save(url, body)
                     jsonData = Gson().fromJson(body, JsonObject::class.java)
                 }
