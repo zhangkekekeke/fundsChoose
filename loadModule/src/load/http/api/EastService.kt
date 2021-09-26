@@ -2,8 +2,9 @@ package load.http.api
 
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.*
-import java.net.URLEncoder
+import retrofit2.http.GET
+import retrofit2.http.HeaderMap
+import retrofit2.http.Query
 
 
 interface EastService {

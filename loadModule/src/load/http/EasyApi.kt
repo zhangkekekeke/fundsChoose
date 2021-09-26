@@ -12,7 +12,6 @@ import load.http.api.EastService
 import load.util.isEmpty
 import org.jsoup.select.Elements
 import retrofit2.Retrofit
-import java.lang.Exception
 
 const val FCODE = "FCODE"             //基金代码
 const val SHORTNAME = "SHORTNAME"     //基金简称
